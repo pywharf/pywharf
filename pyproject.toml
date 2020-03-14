@@ -17,8 +17,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-private-pypi-core = "0.1.3a2"
-private-pypi-github = "0.1.1a2"
+private-pypi-core = "0.1.3a3"
+private-pypi-github = "0.1.1a3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

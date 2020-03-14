@@ -1,8 +1,8 @@
 import sys
 from typing import Callable, Dict
 
-from private_pypi.server import run_server_cli
-from private_pypi.backend import BackendInstanceManager
+from private_pypi_core.server import run_server_cli
+from private_pypi_core.backend import BackendInstanceManager
 
 
 def build_command_to_func() -> Dict[str, Callable[[], int]]:
