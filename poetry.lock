@@ -420,7 +420,7 @@ description = "A private PyPI server powered by flexible backends."
 name = "private-pypi-core"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.3a6"
+version = "0.1.3a7"
 
 [package.dependencies]
 Jinja2 = ">=2.11.1,<3.0.0"
@@ -448,11 +448,11 @@ description = ""
 name = "private-pypi-github"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.1a5"
+version = "0.1.1a6"
 
 [package.dependencies]
 PyGithub = ">=1.46,<2.0"
-private-pypi-core = "0.1.3a6"
+private-pypi-core = "0.1.3a7"
 requests = ">=2.23.0,<3.0.0"
 
 [[package]]
@@ -853,7 +853,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "569f8b83fd6ac7a5919fae6f81f689f9bd175cd6749519904e2e45374448bbfe"
+content-hash = "35030221559c30435dcbc95cbcdb243de4270bbb88851e1faf1d767e4bd0ef39"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1084,12 +1084,12 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 private-pypi-core = [
-    {file = "private-pypi-core-0.1.3a6.tar.gz", hash = "sha256:beab8ff3ae081c98cee7c62649beb904470691228b5d511eb67918ec78a1473e"},
-    {file = "private_pypi_core-0.1.3a6-py3-none-any.whl", hash = "sha256:a81619c67ce557021c612806ae90ce70a079634604cc04ad424f222b36184239"},
+    {file = "private-pypi-core-0.1.3a7.tar.gz", hash = "sha256:c76416a711750d35c3481edfb9a7f960dbccead56718161cf292fb6352b30912"},
+    {file = "private_pypi_core-0.1.3a7-py3-none-any.whl", hash = "sha256:56ff12ba7d72755c647686199d096e84d14661ebe3ee250a2e19904ce4502f99"},
 ]
 private-pypi-github = [
-    {file = "private-pypi-github-0.1.1a5.tar.gz", hash = "sha256:d400a60eede056848e52afa9007fa64f852646fde7baf9caee7582b367e9c3d3"},
-    {file = "private_pypi_github-0.1.1a5-py3-none-any.whl", hash = "sha256:b961a306a501cf45c1c64120be8d2dc8f1868334ebfe82966d556b4b9507b9bb"},
+    {file = "private-pypi-github-0.1.1a6.tar.gz", hash = "sha256:3f6b6019afbcd6cf8e9618d87925bf92af9dc39675752b11ef0237a09e738426"},
+    {file = "private_pypi_github-0.1.1a6-py3-none-any.whl", hash = "sha256:267bb3b4d506771c7437be1bbbcb5cd4e3dac9d13af579af3c9e5fb25a0e3177"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.7.1.tar.gz", hash = "sha256:71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da"},
@@ -1198,6 +1198,15 @@ redis-server = [
     {file = "redis_server-5.0.7-202003070747-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:e3929208072428d1c901fc6447bba3d09c843e624fbdcfe84fc9839d6795710a"},
     {file = "redis_server-5.0.7-202003070747-cp38-cp38-manylinux2010_i686.whl", hash = "sha256:23d7dada2ae4d602568f947297ef034a7806ad571bfd3b5a6844bb7c23a4678b"},
     {file = "redis_server-5.0.7-202003070747-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:bd46762c3e8df99524a1c15ee717437d0e51692f677980c3532bd8f8781f8cf1"},
+    {file = "redis_server-5.0.7-202003071029-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:a7da2461bdd8a2cb04937d3c71459dad4c8b4ced386c7c741cda258b1d0549f5"},
+    {file = "redis_server-5.0.7-202003071030-cp35-cp35m-manylinux2010_i686.whl", hash = "sha256:64adb22f7d0c4788bcd59fda6b84c504d49c5208b4a729521c970dba9154d87f"},
+    {file = "redis_server-5.0.7-202003071030-cp35-cp35m-manylinux2010_x86_64.whl", hash = "sha256:4500c57d802b4d8cae9307b3b7a005dacfd20303666352063059208b4f71732c"},
+    {file = "redis_server-5.0.7-202003071030-cp36-cp36m-manylinux2010_i686.whl", hash = "sha256:ce7833596ef52ca4a79c10377314d328eb59f11fe8d740679006a8bb2ef573cc"},
+    {file = "redis_server-5.0.7-202003071030-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:9f5a499b5232b3e6e75bac28fd1681f6cd56e924890ce9c4987ea714ea5afbbe"},
+    {file = "redis_server-5.0.7-202003071030-cp37-cp37m-manylinux2010_i686.whl", hash = "sha256:b2fee7cd16e1aa2419452c7574993819159d53a8089a64df6912549e1bf03155"},
+    {file = "redis_server-5.0.7-202003071030-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:e1c02d7d7d82cd77a3f3ed7a831f09bcac4da9e1677f306017297766e3fab137"},
+    {file = "redis_server-5.0.7-202003071030-cp38-cp38-manylinux2010_i686.whl", hash = "sha256:b09c207d8224ce8f73f064b30ee77ddc7e9b09ba1ff935c555294d999b854d0b"},
+    {file = "redis_server-5.0.7-202003071030-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:fe3f95337638a5ecf16dfbe76fe4a87c84d09ca22a8cf0f9b7dfdc6437fdf13f"},
 ]
 requests = [
     {file = "requests-2.23.0-py2.py3-none-any.whl", hash = "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee"},
