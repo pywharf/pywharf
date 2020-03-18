@@ -55,8 +55,19 @@ jobs:
 
     - name: Publish to PyPI.
       run: |
-        poetry build
+        poetry build -f wheel
+        PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
+        echo "::set-env name=PRIVATE_PYPI_VERSION::${PRIVATE_PYPI_VERSION}"
+
         twine upload --skip-existing dist/*
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+
+    - name: Publish to Docker Hub.
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: privatepypi/private-pypi
+        tags: ${{ env.PRIVATE_PYPI_VERSION }}
