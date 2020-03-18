@@ -2,11 +2,15 @@ import sys
 from typing import Callable, Dict
 
 from private_pypi_core.server import run_server_cli
+from private_pypi_core.workflow import update_index_cli
 from private_pypi_core.backend import BackendInstanceManager
 
 
 def build_command_to_func() -> Dict[str, Callable[[], int]]:
-    command_to_func = {'server': run_server_cli}
+    command_to_func = {
+            'server': run_server_cli,
+            'update_index': update_index_cli,
+    }
 
     bim = BackendInstanceManager()
     for reg in bim._type_to_registration.values():  # pylint: disable=protected-access
