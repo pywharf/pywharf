@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "private-pypi"
-version = "0.1.0-alpha.4"
+version = "0.1.0-alpha.5"
 description = "A private PyPI server powered by flexible backends."
 license = "MIT"
 authors = ["huntzhan <huntzhan.dev@gmail.com>"]
@@ -27,7 +27,7 @@ pylint = "^2.4.4"
 twine = "^3.1.1"
 
 [tool.poetry.scripts]
-private_pypi = "private_pypi_bundles:run"
+private_pypi = "private_pypi_bundles:main"
 
 [build-system]
 requires = ["poetry>=0.12"]

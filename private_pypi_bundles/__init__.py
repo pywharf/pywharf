@@ -1,3 +1,5 @@
+from collections import defaultdict
+import os
 import sys
 from typing import Callable, Dict
 
@@ -46,3 +48,43 @@ SUPPORTED COMMANDS
     sys.argv = sys.argv[1:]
     # Run.
     return command_to_func[command]()
+
+
+def run_env():
+    '''
+    PRIVATE_PYPI_COMMAND: to set<command>.
+    PRIVATE_PYPI_COMMAND_<FLAG>: to set <command_flags>.
+    '''
+
+    command = None
+    command_flags = {}
+
+    for key, val in os.environ.items():
+        key = key.upper()
+        if key == 'PRIVATE_PYPI_COMMAND':
+            command = val
+
+        elif key.startswith('PRIVATE_PYPI_COMMAND_'):
+            flag = key[len('PRIVATE_PYPI_COMMAND_'):].lower()
+            assert flag
+            command_flags[flag] = val
+
+    if not command:
+        raise RuntimeError('PRIVATE_PYPI_COMMAND not set.')
+
+    # Fill argv.
+    argv = ['private_pypi', command]
+    for flag, val in command_flags.items():
+        argv.append(f'--{flag}')
+        if val:
+            argv.append(val)
+
+    sys.argv = argv
+    return run()
+
+
+def main():
+    if len(sys.argv) <= 1:
+        return run_env()
+    else:
+        return run()
