@@ -448,7 +448,7 @@ description = ""
 name = "private-pypi-github"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.1a14"
+version = "0.1.1a16"
 
 [package.dependencies]
 PyGithub = ">=1.46,<2.0"
@@ -853,7 +853,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "1ebf15b350dabb2d3e993051df84518dfe05555ba08a6617d27799a1b9053c0e"
+content-hash = "a4fe2d77c695ddcdad39d25eea1331055c37abad73bfb2d18746c435948c1773"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1087,7 +1087,7 @@ private-pypi-core = [
     {file = "private_pypi_core-0.1.3a11-py3-none-any.whl", hash = "sha256:5e27848436b5d0efc6bdd00c0cf693ab80c594a26a5cba118c4dd2e04eb5cbe9"},
 ]
 private-pypi-github = [
-    {file = "private_pypi_github-0.1.1a14-py3-none-any.whl", hash = "sha256:2dc56fda496c4baec04b05bb62fae6e27cb8f1926f14890ac2dbe1edbbcc5851"},
+    {file = "private_pypi_github-0.1.1a16-py3-none-any.whl", hash = "sha256:26cfa5d59b93972ad9f8d2d216b37affe3134361bb18eb6e8d59e679b6f56f67"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.7.1.tar.gz", hash = "sha256:71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da"},
