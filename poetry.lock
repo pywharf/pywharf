@@ -420,7 +420,7 @@ description = "A private PyPI server powered by flexible backends."
 name = "private-pypi-core"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.3a11"
+version = "0.1.3a12"
 
 [package.dependencies]
 Jinja2 = ">=2.11.1,<3.0.0"
@@ -448,11 +448,11 @@ description = ""
 name = "private-pypi-github"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.1.1a19"
+version = "0.1.1a20"
 
 [package.dependencies]
 PyGithub = ">=1.46,<2.0"
-private-pypi-core = "0.1.3a11"
+private-pypi-core = "0.1.3a12"
 requests = ">=2.23.0,<3.0.0"
 
 [[package]]
@@ -853,7 +853,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "9a889a115ee847ab3be2bc657d13a5035ed38fa1dc92bc9b449288785af607a7"
+content-hash = "fa5457cebad5459f9a69dbadb1baa4ad99f5c7bff134367fbe5d9ec40b213b6b"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1084,10 +1084,10 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 private-pypi-core = [
-    {file = "private_pypi_core-0.1.3a11-py3-none-any.whl", hash = "sha256:5e27848436b5d0efc6bdd00c0cf693ab80c594a26a5cba118c4dd2e04eb5cbe9"},
+    {file = "private_pypi_core-0.1.3a12-py3-none-any.whl", hash = "sha256:6cc7e02715315168939598016a08b3e1801b32712a87dfcf4f7ebf34689bb86f"},
 ]
 private-pypi-github = [
-    {file = "private_pypi_github-0.1.1a19-py3-none-any.whl", hash = "sha256:49008d66b65cd82c505c032f458576b94c2a86b12a18a51477823f93c943218a"},
+    {file = "private_pypi_github-0.1.1a20-py3-none-any.whl", hash = "sha256:f77d8f1881fb16c90e3a25fe5cea2b0f222167346e2858854e3e23aa8f17ff79"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.7.1.tar.gz", hash = "sha256:71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da"},

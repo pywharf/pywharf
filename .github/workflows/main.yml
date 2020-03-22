@@ -1,73 +1,71 @@
-name: ci
+name: build-and-push
 
 on:
- push:
+  push:
 
 jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_version: ["3.7", "3.8"]
 
- ci:
-  runs-on: ubuntu-latest
-  strategy:
-    matrix:
-      python_version: ['3.7', '3.8']
-  steps:
-    - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python_version }}
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python_version }}
 
-    - name: Setup pip/poetry
-      run: |
-        pip install -U pip poetry
-        pip --version
-        poetry --version
-        poetry config virtualenvs.create false
+      - name: Setup pip/poetry
+        run: |
+          pip install -U pip poetry
+          poetry config virtualenvs.create false
 
-    - name: Install.
-      run: poetry install
+      - name: Install.
+        run: poetry install
 
-    - name: Lint.
-      run: |
-        pylint private_pypi_bundles
-        yapf -d -r --style='{based_on_style: google, continuation_indent_width: 8, dedent_closing_brackets: false, column_limit: 100}' private_pypi_bundles
+      - name: Lint.
+        run: |
+          pylint private_pypi_bundles
+          yapf -d -r --style="$YAPF_STYLE" private_pypi_bundles
+        env:
+          YAPF_STYLE: '{based_on_style: google, continuation_indent_width: 8, dedent_closing_brackets: false, column_limit: 100}'
 
- publish:
-  needs: [ci]
-  if: github.ref == 'refs/heads/master'
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
+  publish:
+    needs: [ci]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
 
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.8'
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Setup pip/poetry
-      run: |
-        pip install -U pip poetry twine
-        pip --version
-        poetry --version
-        twine --version
-        poetry config virtualenvs.create false
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
 
-    - name: Publish to PyPI.
-      run: |
-        poetry build -f wheel
-        PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
-        echo "::set-env name=PRIVATE_PYPI_VERSION::${PRIVATE_PYPI_VERSION}"
+      - name: Setup pip/poetry
+        run: |
+          pip install -U pip poetry twine
+          poetry config virtualenvs.create false
 
-        twine upload --skip-existing dist/*
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      - name: Publish to PyPI.
+        run: |
+          poetry build -f wheel
+          PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
+          echo "::set-env name=PRIVATE_PYPI_VERSION::${PRIVATE_PYPI_VERSION}"
 
-    - name: Publish to Docker Hub.
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: privatepypi/private-pypi
-        tags: ${{ env.PRIVATE_PYPI_VERSION }}
+          twine upload --skip-existing dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+
+      - name: Publish to Docker Hub.
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: privatepypi/private-pypi
+          tags: ${{ env.PRIVATE_PYPI_VERSION }}
