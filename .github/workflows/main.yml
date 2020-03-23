@@ -99,12 +99,17 @@ jobs:
       - name: Docker build & publish.
         run: |
           PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
+          PRIVATE_PYPI_IMAGE=privatepypi/private-pypi:$PRIVATE_PYPI_VERSION
 
-          docker build \
-            --build-arg PIP_INDEX_URL=http://private-pypi-pkg-repo:${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}@localhost:8888/simple \
-            --network host \
-            -t privatepypi/private-pypi:$PRIVATE_PYPI_VERSION \
-            .
+          if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $PRIVATE_PYPI_IMAGE > /dev/null; then
+            echo "Image $PRIVATE_PYPI_IMAGE has already exist."
+          else
+            docker build \
+              --build-arg PIP_INDEX_URL=http://private-pypi-pkg-repo:${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}@localhost:8888/simple \
+              --network host \
+              -t $PRIVATE_PYPI_IMAGE \
+              .
 
-          docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-          docker push privatepypi/private-pypi:$PRIVATE_PYPI_VERSION
+            docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+            docker push $PRIVATE_PYPI_IMAGE
+          fi
