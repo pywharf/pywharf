@@ -38,8 +38,38 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
+    services:
+      private-pypi:
+        image: privatepypi/private-pypi:0.1.0a16
+        ports:
+          - 8888:8888
+        volumes:
+          - private-pypi-root:/private-pypi-root
+        env:
+          PRIVATE_PYPI_COMMAND: server
+          PRIVATE_PYPI_COMMAND_ROOT: /private-pypi-root
+          PRIVATE_PYPI_COMMAND_DEBUG: True
+        options: --name private-pypi
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup private-pypi
+        run: |
+          curl \
+            -d "config=${CONFIG}&admin_secret=${ADMIN_SECRET}" \
+            -X POST \
+            http://localhost:8888/initialize/
+        env:
+          CONFIG: |
+            [private-pypi-pkg-repo]
+            type = "github"
+            owner = "private-pypi"
+            repo = "private-pypi-pkg-repo"
+          ADMIN_SECRET: |
+            [private-pypi-pkg-repo]
+            type = "github"
+            raw = "${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}"
 
       - name: Setup python
         uses: actions/setup-python@v1
@@ -51,21 +81,30 @@ jobs:
           pip install -U pip poetry twine
           poetry config virtualenvs.create false
 
-      - name: Publish to PyPI.
-        run: |
-          poetry build -f wheel
-          PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
-          echo "::set-env name=PRIVATE_PYPI_VERSION::${PRIVATE_PYPI_VERSION}"
+      - name: Build wheel
+        run: poetry build -f wheel
 
-          twine upload --skip-existing dist/*
+      - name: Publish to private-pypi.
+        run: twine upload --skip-existing --repository-url http://localhost:8888/simple/ dist/*
+        env:
+          TWINE_USERNAME: private-pypi-pkg-repo
+          TWINE_PASSWORD: ${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}
+
+      - name: Publish to PyPI.
+        run: twine upload --skip-existing dist/*
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 
-      - name: Publish to Docker Hub.
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: privatepypi/private-pypi
-          tags: ${{ env.PRIVATE_PYPI_VERSION }}
+      - name: Docker build & publish.
+        run: |
+          PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
+
+          docker build \
+            --build-arg PIP_INDEX_URL=http://private-pypi-pkg-repo:${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}@localhost:8888/simple \
+            --network host \
+            -t privatepypi/private-pypi:$PRIVATE_PYPI_VERSION \
+            .
+
+          docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+          docker push privatepypi/private-pypi:$PRIVATE_PYPI_VERSION
