@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "private-pypi"
-version = "0.1.0-alpha.15"
+version = "0.1.0-alpha.16"
 description = "A private PyPI server powered by flexible backends."
 license = "MIT"
 authors = ["huntzhan <huntzhan.dev@gmail.com>"]
@@ -17,8 +17,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-private-pypi-core = "0.1.3a15"
-private-pypi-github = "0.1.1a23"
+private-pypi-core = "0.1.3a16"
+private-pypi-github = "0.1.1a24"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
