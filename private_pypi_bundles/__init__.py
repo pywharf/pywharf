@@ -52,7 +52,7 @@ SUPPORTED COMMANDS
 
 def run_env():
     '''
-    PRIVATE_PYPI_COMMAND: to set<command>.
+    PRIVATE_PYPI_COMMAND: to set <command>.
     PRIVATE_PYPI_COMMAND_<FLAG>: to set <command_flags>.
     '''
 
