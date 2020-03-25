@@ -52,7 +52,7 @@ The `private-pypi` server serves as an abstraction layer between Python package 
 ### Install from PyPI
 
 ```shell
-pip install private-pypi==0.1.0a17
+pip install private-pypi==0.2.0
 ```
 
 This should bring the execuable `private_pypi` to your environment.
@@ -71,10 +71,10 @@ SUPPORTED COMMANDS
 
 ### Using the docker image (recommended)
 
-Docker image: `privatepypi/private-pypi:0.1.0a17`. The image tag is the same as the package version in PyPI.
+Docker image: `privatepypi/private-pypi:0.2.0`. The image tag is the same as the package version in PyPI.
 
 ```shell
-$ docker run --rm privatepypi/private-pypi:0.1.0a17 --help
+$ docker run --rm privatepypi/private-pypi:0.2.0 --help
 SYNOPSIS
     private_pypi <command> <command_flags>
 
@@ -172,7 +172,7 @@ docker run --rm \
     -v /path/to/config.toml:/config.toml \
     -v /path/to/admin_secret.toml:/admin_secret.toml \
     -p 8888:8888 \
-    privatepypi/private-pypi:0.1.0a17 \
+    privatepypi/private-pypi:0.2.0 \
     server \
     /private-pypi-root \
     --config=/config.toml \
@@ -337,7 +337,7 @@ The GitHub backend accepts [personal access token](https://help.github.com/en/gi
 To initialize a GitHub repository as the storage backend, run the command `github.init_pkg_repo`:
 
 ```shell
-docker run --rm privatepypi/private-pypi:0.1.0a17 \
+docker run --rm privatepypi/private-pypi:0.2.0 \
     github.init_pkg_repo \
     --name private-pypi-pkg-repo \
     --owner private-pypi \
@@ -362,7 +362,7 @@ Firstly, run the server as job service:
 ```yaml
 services:
   private-pypi:
-    image: privatepypi/private-pypi:0.1.0a17
+    image: privatepypi/private-pypi:0.2.0
     ports:
       - 8888:8888
     volumes:
