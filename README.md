@@ -168,15 +168,15 @@ Example run:
 
 ```shell
 docker run --rm \
-		-v /path/to/root:/private-pypi-root \
-		-v /path/to/config.toml:/config.toml \
-		-v /path/to/admin_secret.toml:/admin_secret.toml \
-		-p 8888:8888 \
-		privatepypi/private-pypi:0.1.0a17 \
-		server \
-		/private-pypi-root \
-		--config=/config.toml \
-		--admin_secret=/admin_secret.toml
+    -v /path/to/root:/private-pypi-root \
+    -v /path/to/config.toml:/config.toml \
+    -v /path/to/admin_secret.toml:/admin_secret.toml \
+    -p 8888:8888 \
+    privatepypi/private-pypi:0.1.0a17 \
+    server \
+    /private-pypi-root \
+    --config=/config.toml \
+    --admin_secret=/admin_secret.toml
 ```
 
 ### Server API
