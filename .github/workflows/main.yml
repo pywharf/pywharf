@@ -40,14 +40,14 @@ jobs:
 
     services:
       pywharf:
-        image: privatepypi/private-pypi:0.2.0
+        image: pywharf/pywharf:0.2.0
         ports:
           - 8888:8888
         volumes:
           - pywharf-root:/pywharf-root
         env:
-          PRIVATE_PYPI_COMMAND: server
-          PRIVATE_PYPI_COMMAND_ROOT: /pywharf-root
+          PYWHARF_COMMAND: server
+          PYWHARF_COMMAND_ROOT: /pywharf-root
 
     steps:
       - uses: actions/checkout@v2
