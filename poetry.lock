@@ -71,7 +71,7 @@ description = "An easy safelist-based HTML-sanitizing tool."
 name = "bleach"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "3.1.3"
+version = "3.1.4"
 
 [package.dependencies]
 six = ">=1.9.0"
@@ -250,7 +250,7 @@ marker = "python_version < \"3.8\""
 name = "importlib-metadata"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
-version = "1.5.1"
+version = "1.6.0"
 
 [package.dependencies]
 zipp = ">=0.5"
@@ -416,47 +416,6 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 category = "main"
-description = "A private PyPI server powered by flexible backends."
-name = "private-pypi-core"
-optional = false
-python-versions = ">=3.7,<4.0"
-version = "0.2.0"
-
-[package.dependencies]
-Jinja2 = ">=2.11.1,<3.0.0"
-Paste = ">=3.4.0,<4.0.0"
-apscheduler = ">=3.6.3,<4.0.0"
-cryptography = ">=2.8,<3.0"
-filelock = ">=3.0.12,<4.0.0"
-fire = ">=0.2.1,<0.3.0"
-flask = ">=1.1.1,<2.0.0"
-flask-login = ">=0.5.0,<0.6.0"
-psutil = ">=5.6.7,<6.0.0"
-pydantic = ">=1.4,<2.0"
-redis-server = ">=5.0.7,<6.0.0"
-shortuuid = ">=0.5.0,<0.6.0"
-toml = ">=0.10.0,<0.11.0"
-waitress = ">=1.4.3,<2.0.0"
-
-[package.dependencies.dramatiq]
-extras = ["redis"]
-version = ">=1.8.1,<2.0.0"
-
-[[package]]
-category = "main"
-description = ""
-name = "private-pypi-github"
-optional = false
-python-versions = ">=3.7,<4.0"
-version = "0.2.0"
-
-[package.dependencies]
-PyGithub = ">=1.46,<2.0"
-private-pypi-core = ">=0.2.0,<0.3.0"
-requests = ">=2.23.0,<3.0.0"
-
-[[package]]
-category = "main"
 description = "Python client for the Prometheus monitoring system."
 name = "prometheus-client"
 optional = false
@@ -598,6 +557,47 @@ name = "pytz"
 optional = false
 python-versions = "*"
 version = "2019.3"
+
+[[package]]
+category = "main"
+description = "A private PyPI server powered by flexible backends."
+name = "pywharf-core"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.2.0"
+
+[package.dependencies]
+Jinja2 = ">=2.11.1,<3.0.0"
+Paste = ">=3.4.0,<4.0.0"
+apscheduler = ">=3.6.3,<4.0.0"
+cryptography = ">=2.8,<3.0"
+filelock = ">=3.0.12,<4.0.0"
+fire = ">=0.2.1,<0.3.0"
+flask = ">=1.1.1,<2.0.0"
+flask-login = ">=0.5.0,<0.6.0"
+psutil = ">=5.6.7,<6.0.0"
+pydantic = ">=1.4,<2.0"
+redis-server = ">=5.0.7,<6.0.0"
+shortuuid = ">=0.5.0,<0.6.0"
+toml = ">=0.10.0,<0.11.0"
+waitress = ">=1.4.3,<2.0.0"
+
+[package.dependencies.dramatiq]
+extras = ["redis"]
+version = ">=1.8.1,<2.0.0"
+
+[[package]]
+category = "main"
+description = ""
+name = "pywharf-github"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.2.0"
+
+[package.dependencies]
+PyGithub = ">=1.46,<2.0"
+pywharf-core = ">=0.2.0,<0.3.0"
+requests = ">=2.23.0,<3.0.0"
 
 [[package]]
 category = "dev"
@@ -853,7 +853,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "6a282e654778e4e87f1b6c7c9dd802fa2339c54ef73d3a03e370fe47f725499f"
+content-hash = "7a383e619bd51695e358c2ecadb7b6d051dcb864bcf9a47ea0e9bd12276e3ee8"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -874,8 +874,8 @@ attrs = [
     {file = "attrs-19.3.0.tar.gz", hash = "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"},
 ]
 bleach = [
-    {file = "bleach-3.1.3-py2.py3-none-any.whl", hash = "sha256:53165a6596e7899c4338d847315fec508110a53bd6fd15c127c2e0d0860264e3"},
-    {file = "bleach-3.1.3.tar.gz", hash = "sha256:f8dfd8a7e26443e986c4e44df31870da8e906ea61096af06ba5d5cc2d519842a"},
+    {file = "bleach-3.1.4-py2.py3-none-any.whl", hash = "sha256:cc8da25076a1fe56c3ac63671e2194458e0c4d9c7becfd52ca251650d517903c"},
+    {file = "bleach-3.1.4.tar.gz", hash = "sha256:e78e426105ac07026ba098f04de8abe9b6e3e98b5befbf89b51a5ef0a4292b03"},
 ]
 certifi = [
     {file = "certifi-2019.11.28-py2.py3-none-any.whl", hash = "sha256:017c25db2a153ce562900032d5bc68e9f191e44e9a0f762f373977de9df1fbb3"},
@@ -978,8 +978,8 @@ idna = [
     {file = "idna-2.9.tar.gz", hash = "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb"},
 ]
 importlib-metadata = [
-    {file = "importlib_metadata-1.5.1-py2.py3-none-any.whl", hash = "sha256:0095bf45caca7a93685cbb9e5ef49f0ed37f848639df8f4684f07229aa7a8322"},
-    {file = "importlib_metadata-1.5.1.tar.gz", hash = "sha256:dd381cddc02a58a23667ef675164ad70848d82966d3a8fddea96dcfb51064803"},
+    {file = "importlib_metadata-1.6.0-py2.py3-none-any.whl", hash = "sha256:2a688cbaa90e0cc587f1df48bdc97a6eadccdcd9c35fb3f976a09e3b5016d90f"},
+    {file = "importlib_metadata-1.6.0.tar.gz", hash = "sha256:34513a8a0c4962bc66d35b359558fd8a5e10cd472d37aec5f66858addef32c1e"},
 ]
 isort = [
     {file = "isort-4.3.21-py2.py3-none-any.whl", hash = "sha256:6e811fcb295968434526407adb8796944f1988c5b65e8139058f2014cbe100fd"},
@@ -1083,12 +1083,6 @@ pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
-private-pypi-core = [
-    {file = "private_pypi_core-0.2.0-py3-none-any.whl", hash = "sha256:399664abae2c4c4e29667c96212d5390d6a1e5276e89195ce2bc15df67637c12"},
-]
-private-pypi-github = [
-    {file = "private_pypi_github-0.2.0-py3-none-any.whl", hash = "sha256:f98ee41590b06c57b379efa08a329e27d29cc7b8997d84697008a5abaa734364"},
-]
 prometheus-client = [
     {file = "prometheus_client-0.7.1.tar.gz", hash = "sha256:71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da"},
 ]
@@ -1156,6 +1150,12 @@ pytest = [
 pytz = [
     {file = "pytz-2019.3-py2.py3-none-any.whl", hash = "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d"},
     {file = "pytz-2019.3.tar.gz", hash = "sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be"},
+]
+pywharf-core = [
+    {file = "pywharf_core-0.2.0-py3-none-any.whl", hash = "sha256:0f4944783a4bb6c44024eb6802ad2d646d346e3c63698a308ea35bc0bfb58368"},
+]
+pywharf-github = [
+    {file = "pywharf_github-0.2.0-py3-none-any.whl", hash = "sha256:0a0a70dee99e1effe6053afdb3ee09c1f654c8e668428c1c430f942a0af35282"},
 ]
 pywin32-ctypes = [
     {file = "pywin32-ctypes-0.2.0.tar.gz", hash = "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942"},

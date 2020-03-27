@@ -3,9 +3,9 @@ import os
 import sys
 from typing import Callable, Dict
 
-from private_pypi_core.server import run_server_cli
-from private_pypi_core.workflow import update_index_cli
-from private_pypi_core.backend import BackendInstanceManager
+from pywharf_core.server import run_server_cli
+from pywharf_core.workflow import update_index_cli
+from pywharf_core.backend import BackendInstanceManager
 
 
 def build_command_to_func() -> Dict[str, Callable[[], int]]:
@@ -29,7 +29,7 @@ def run():
     help_supported_commands = '\n'.join(f'    {command}' for command in command_to_func)
     help_doc = f'''\
 SYNOPSIS
-    private_pypi <command> <command_flags>
+    pywharf <command> <command_flags>
 
 SUPPORTED COMMANDS
 {help_supported_commands}
@@ -52,8 +52,8 @@ SUPPORTED COMMANDS
 
 def run_env():
     '''
-    PRIVATE_PYPI_COMMAND: to set <command>.
-    PRIVATE_PYPI_COMMAND_<FLAG>: to set <command_flags>.
+    PYWHARF_COMMAND: to set <command>.
+    PYWHARF_COMMAND_<FLAG>: to set <command_flags>.
     '''
 
     command = None
@@ -61,19 +61,19 @@ def run_env():
 
     for key, val in os.environ.items():
         key = key.upper()
-        if key == 'PRIVATE_PYPI_COMMAND':
+        if key == 'PYWHARF_COMMAND':
             command = val
 
-        elif key.startswith('PRIVATE_PYPI_COMMAND_'):
-            flag = key[len('PRIVATE_PYPI_COMMAND_'):].lower()
+        elif key.startswith('PYWHARF_COMMAND_'):
+            flag = key[len('PYWHARF_COMMAND_'):].lower()
             assert flag
             command_flags[flag] = val
 
     if not command:
-        raise RuntimeError('PRIVATE_PYPI_COMMAND not set.')
+        raise RuntimeError('PYWHARF_COMMAND not set.')
 
     # Fill argv.
-    argv = ['private_pypi', command]
+    argv = ['pywharf', command]
     for flag, val in command_flags.items():
         argv.append(f'--{flag}')
         if val:

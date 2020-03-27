@@ -5,6 +5,6 @@ ARG PIP_INDEX_URL
 ADD dist /dist
 
 RUN pip --no-cache-dir install -U pip \
-    && pip --no-cache-dir install $(realpath /dist/private_pypi*.whl | head -n 1)
+    && pip --no-cache-dir install $(realpath /dist/pywharf*.whl | head -n 1)
 
-ENTRYPOINT ["private_pypi"]
+ENTRYPOINT ["pywharf"]

@@ -28,8 +28,8 @@ jobs:
 
       - name: Lint.
         run: |
-          pylint private_pypi_bundles
-          yapf -d -r --style="$YAPF_STYLE" private_pypi_bundles
+          pylint pywharf_bundles
+          yapf -d -r --style="$YAPF_STYLE" pywharf_bundles
         env:
           YAPF_STYLE: '{based_on_style: google, continuation_indent_width: 8, dedent_closing_brackets: false, column_limit: 100}'
 
@@ -39,20 +39,20 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      private-pypi:
+      pywharf:
         image: privatepypi/private-pypi:0.2.0
         ports:
           - 8888:8888
         volumes:
-          - private-pypi-root:/private-pypi-root
+          - pywharf-root:/pywharf-root
         env:
           PRIVATE_PYPI_COMMAND: server
-          PRIVATE_PYPI_COMMAND_ROOT: /private-pypi-root
+          PRIVATE_PYPI_COMMAND_ROOT: /pywharf-root
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup private-pypi
+      - name: Setup pywharf
         run: |
           curl \
             -d "config=${CONFIG}&admin_secret=${ADMIN_SECRET}" \
@@ -60,14 +60,14 @@ jobs:
             http://localhost:8888/initialize/
         env:
           CONFIG: |
-            [private-pypi-pkg-repo]
+            [pywharf-pkg-repo]
             type = "github"
-            owner = "private-pypi"
-            repo = "private-pypi-pkg-repo"
+            owner = "pywharf"
+            repo = "pywharf-pkg-repo"
           ADMIN_SECRET: |
-            [private-pypi-pkg-repo]
+            [pywharf-pkg-repo]
             type = "github"
-            raw = "${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}"
+            raw = "${{ secrets.PYWHARF_PKG_REPO_TOKEN }}"
 
       - name: Setup python
         uses: actions/setup-python@v1
@@ -82,11 +82,11 @@ jobs:
       - name: Build wheel
         run: poetry build -f wheel
 
-      - name: Publish to private-pypi.
+      - name: Publish to pywharf.
         run: twine upload --skip-existing --repository-url http://localhost:8888/simple/ dist/*
         env:
-          TWINE_USERNAME: private-pypi-pkg-repo
-          TWINE_PASSWORD: ${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}
+          TWINE_USERNAME: pywharf-pkg-repo
+          TWINE_PASSWORD: ${{ secrets.PYWHARF_PKG_REPO_TOKEN }}
 
       - name: Publish to PyPI.
         run: twine upload --skip-existing dist/*
@@ -96,18 +96,18 @@ jobs:
 
       - name: Docker build & publish.
         run: |
-          PRIVATE_PYPI_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
-          PRIVATE_PYPI_IMAGE=privatepypi/private-pypi:$PRIVATE_PYPI_VERSION
+          PYWHARF_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
+          PYWHARF_IMAGE=pywharf/pywharf:$PYWHARF_VERSION
 
-          if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $PRIVATE_PYPI_IMAGE > /dev/null; then
-            echo "Image $PRIVATE_PYPI_IMAGE has already exist."
+          if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $PYWHARF_IMAGE > /dev/null; then
+            echo "Image $PYWHARF_IMAGE has already exist."
           else
             docker build \
-              --build-arg PIP_INDEX_URL=http://private-pypi-pkg-repo:${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}@localhost:8888/simple \
+              --build-arg PIP_INDEX_URL=http://pywharf-pkg-repo:${{ secrets.PYWHARF_PKG_REPO_TOKEN }}@localhost:8888/simple \
               --network host \
-              -t $PRIVATE_PYPI_IMAGE \
+              -t $PYWHARF_IMAGE \
               .
 
             docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-            docker push $PRIVATE_PYPI_IMAGE
+            docker push $PYWHARF_IMAGE
           fi

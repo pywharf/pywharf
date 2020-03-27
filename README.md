@@ -1,13 +1,11 @@
 <div align="center">
 
-![logo-large 72ad8bf1](https://user-images.githubusercontent.com/5213906/77421237-6d402180-6e06-11ea-89c1-915cd747660a.png)
-
-# Private PyPI
+# pywharf
 
 **The private PyPI server powered by flexible backends.**
 
-[![build-and-push](https://github.com/private-pypi/private-pypi/workflows/build-and-push/badge.svg)](https://github.com/private-pypi/private-pypi/actions?query=workflow%3Abuild-and-push)
-[![license](https://img.shields.io/github/license/private-pypi/private-pypi)](https://github.com/private-pypi/private-pypi/blob/master/LICENSE)
+[![build-and-push](https://github.com/pywharf/pywharf/workflows/build-and-push/badge.svg)](https://github.com/pywharf/pywharf/actions?query=workflow%3Abuild-and-push)
+[![license](https://img.shields.io/github/license/pywharf/pywharf)](https://github.com/pywharf/pywharf/blob/master/LICENSE)
 
 </div>
 
@@ -30,11 +28,11 @@
 
 ## What is it?
 
-`private-pypi` allows you to deploy a PyPI server privately and keep your artifacts safe by leveraging the power (confidentiality, integrity and availability) of your storage backend. The backend mechanism is designed to be flexible so that the developer could support a new storage backend at a low cost.
+`pywharf` allows you to deploy a PyPI server privately and keep your artifacts safe by leveraging the power (confidentiality, integrity and availability) of your storage backend. The backend mechanism is designed to be flexible so that the developer could support a new storage backend at a low cost.
 
 Supported backends:
 
-- GitHub. (Yes, you can now host your Python package in GitHub by using `private-pypi`. )
+- GitHub. (Yes, you can now host your Python package in GitHub by using `pywharf`. )
 - File system.
 - ... (*Upcoming*)
 
@@ -42,25 +40,25 @@ Supported backends:
 
 <div align="center"><img width="766" alt="Screen Shot 2020-03-24 at 8 19 12 PM" src="https://user-images.githubusercontent.com/5213906/77424853-c14e0480-6e0c-11ea-9a7f-879a68ada0a0.png"></div>
 
-The `private-pypi` server serves as an abstraction layer between Python package management tools (pip/poetry/twine) and the storage backends:
+The `pywharf` server serves as an abstraction layer between Python package management tools (pip/poetry/twine) and the storage backends:
 
-* Package management tools communicate with `private-pypi` server, following [PEP 503 -- Simple Repository API](https://www.python.org/dev/peps/pep-0503/) for searching/downloading package, and [Legacy API](https://warehouse.pypa.io/api-reference/legacy/#upload-api) for uploading package.
-* `private-pypi` server  then performs file search/download/upload operations with some specific storage backend.
+* Package management tools communicate with `pywharf` server, following [PEP 503 -- Simple Repository API](https://www.python.org/dev/peps/pep-0503/) for searching/downloading package, and [Legacy API](https://warehouse.pypa.io/api-reference/legacy/#upload-api) for uploading package.
+* `pywharf` server  then performs file search/download/upload operations with some specific storage backend.
 
 ## Usage
 
 ### Install from PyPI
 
 ```shell
-pip install private-pypi==0.2.0
+pip install pywharf==0.2.0
 ```
 
-This should bring the execuable `private_pypi` to your environment.
+This should bring the execuable `pywharf` to your environment.
 
 ```shell
-$ private_pypi --help
+$ pywharf --help
 SYNOPSIS
-    private_pypi <command> <command_flags>
+    pywharf <command> <command_flags>
 
 SUPPORTED COMMANDS
     server
@@ -71,12 +69,12 @@ SUPPORTED COMMANDS
 
 ### Using the docker image (recommended)
 
-Docker image: `privatepypi/private-pypi:0.2.0`. The image tag is the same as the package version in PyPI.
+Docker image: `pywharf/pywharf:0.2.0`. The image tag is the same as the package version in PyPI.
 
 ```shell
-$ docker run --rm privatepypi/private-pypi:0.2.0 --help
+$ docker run --rm pywharf/pywharf:0.2.0 --help
 SYNOPSIS
-    private_pypi <command> <command_flags>
+    pywharf <command> <command_flags>
 
 SUPPORTED COMMANDS
     server
@@ -87,11 +85,11 @@ SUPPORTED COMMANDS
 
 ### Run the server
 
-To run the server, use the command `private_pypi server`.
+To run the server, use the command `pywharf server`.
 
 ```txt
 SYNOPSIS
-    private_pypi server ROOT <flags>
+    pywharf server ROOT <flags>
 
 POSITIONAL ARGUMENTS
     ROOT (str):
@@ -141,10 +139,10 @@ In short, the configuration passed to `--config` defines mappings from `pkg_repo
 Exampe of the configuration file passed to `--config`:
 
 ```toml
-[private-pypi-pkg-repo]
+[pywharf-pkg-repo]
 type = "github"
-owner = "private-pypi"
-repo = "private-pypi-pkg-repo"
+owner = "pywharf"
+repo = "pywharf-pkg-repo"
 
 [local-file-system]
 type = "file_system"
@@ -155,7 +153,7 @@ write_secret = "bar"
 Exampe of the admin secret file passed to `--admin_secret`:
 
 ```toml
-[private-pypi-pkg-repo]
+[pywharf-pkg-repo]
 type = "github"
 raw = "<personal-access-token>"
 
@@ -168,13 +166,13 @@ Example run:
 
 ```shell
 docker run --rm \
-    -v /path/to/root:/private-pypi-root \
+    -v /path/to/root:/pywharf-root \
     -v /path/to/config.toml:/config.toml \
     -v /path/to/admin_secret.toml:/admin_secret.toml \
     -p 8888:8888 \
-    privatepypi/private-pypi:0.2.0 \
+    pywharf/pywharf:0.2.0 \
     server \
-    /private-pypi-root \
+    /pywharf-root \
     --config=/config.toml \
     --admin_secret=/admin_secret.toml
 ```
@@ -214,7 +212,7 @@ The server follows [PEP 503 -- Simple Repository API](https://www.python.org/dev
 
 In a nutshell, you need to set the "index url / repository url / ..." to `http://<host>:<port>/simple/` for the package management tool.
 
-#### Private PyPI server management
+#### Server management
 
 ##### `GET /index_mtime`
 
@@ -249,14 +247,14 @@ $ curl \
 
 Index file is used to track all published packages in a specific time:
 
-* *Remote index file*: the index file sotred in the backend. By design, this file is only updated by a standalone `update index` service and will not be updated by the `private-pypi` server.
-* *Local index file*: the index file synchronized from the remote index file by the `private-pypi` server
+* *Remote index file*: the index file sotred in the backend. By design, this file is only updated by a standalone `update index` service and will not be updated by the `pywharf` server.
+* *Local index file*: the index file synchronized from the remote index file by the `pywharf` server
 
-To update the remote index file, use the command `private_pypi update_index`:
+To update the remote index file, use the command `pywharf update_index`:
 
 ```txt
 SYNOPSIS
-    private_pypi update_index TYPE NAME <flags>
+    pywharf update_index TYPE NAME <flags>
 
 POSITIONAL ARGUMENTS
     TYPE (str):
@@ -274,16 +272,16 @@ FLAGS
         Any other backend-specific configs are allowed.
 ```
 
-Backend developer could setup an `update index` service by invoking  `private_pypi update_index` command.
+Backend developer could setup an `update index` service by invoking  `pywharf update_index` command.
 
 ### Backend-specific commands
 
-The backend registration mechanism will hook up the backend-specific commands to `private_pypi`. As illustrated, commands `github.init_pkg_repo` and `github.gen_gh_pages` are registered by `github` backend.
+The backend registration mechanism will hook up the backend-specific commands to `pywharf`. As illustrated, commands `github.init_pkg_repo` and `github.gen_gh_pages` are registered by `github` backend.
 
 ```shell
-$ private_pypi --help
+$ pywharf --help
 SYNOPSIS
-    private_pypi <command> <command_flags>
+    pywharf <command> <command_flags>
 
 SUPPORTED COMMANDS
     server
@@ -294,12 +292,12 @@ SUPPORTED COMMANDS
 
 ### Environment mode
 
-If no argument is passed, `private_pypi` will try to load the arguments from the environment variables. This mode would be helpful if passing argument in shell is not possible.
+If no argument is passed, `pywharf` will try to load the arguments from the environment variables. This mode would be helpful if passing argument in shell is not possible.
 
 The format:
 
-- `PRIVATE_PYPI_COMMAND`: to set `<command>`.
-- `PRIVATE_PYPI_COMMAND_<FLAG>`: to set the flag of `<command>`.
+- `PYWHARF_COMMAND`: to set `<command>`.
+- `PYWHARF_COMMAND_<FLAG>`: to set the flag of `<command>`.
 
 ## Backends
 
@@ -307,7 +305,7 @@ The format:
 
 #### Introduction
 
-`private-pypi` will help you setup a new GitHub repository to host your package. You package will be published as repository release and secured by personal access token. Take https://github.com/private-pypi/private-pypi-pkg-repo and https://private-pypi.github.io/private-pypi-pkg-repo/ as an example.
+`pywharf` will help you setup a new GitHub repository to host your package. You package will be published as repository release and secured by personal access token. Take https://github.com/pywharf/pywharf-pkg-repo and https://pywharf.github.io/pywharf-pkg-repo/ as an example.
 
 #### Configuration and secret
 
@@ -321,27 +319,27 @@ Package repository configuration of GitHub backend:
 - `max_file_bytes` (optional): limit the maximum size (in bytes) of package. Default to `2147483647` since *each file included in a release must be under 2 GB*, [as restricted by GitHub](https://help.github.com/en/github/administering-a-repository/about-releases#storage-and-bandwidth-quotas) .
 - `sync_index_interval` (optional): the sleep time interval (in seconds) before taking the next local index file synchronization. Default to `60`.
 
-Example configuration of https://github.com/private-pypi/private-pypi-pkg-repo:
+Example configuration of https://github.com/pywharf/pywharf-pkg-repo:
 
 ```toml
-[private-pypi-pkg-repo]
+[pywharf-pkg-repo]
 type = "github"
-owner = "private-pypi"
-repo = "private-pypi-pkg-repo"
+owner = "pywharf"
+repo = "pywharf-pkg-repo"
 ```
 
-The GitHub backend accepts [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) as the repository secret. The `private-pypi` server calls GitHub API with PAT to operate on packages. You can authorize user with read or write permission based on [team role](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization).
+The GitHub backend accepts [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) as the repository secret. The `pywharf` server calls GitHub API with PAT to operate on packages. You can authorize user with read or write permission based on [team role](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization).
 
 #### Initialize the repository
 
 To initialize a GitHub repository as the storage backend, run the command `github.init_pkg_repo`:
 
 ```shell
-docker run --rm privatepypi/private-pypi:0.2.0 \
+docker run --rm pywharf/pywharf:0.2.0 \
     github.init_pkg_repo \
-    --name private-pypi-pkg-repo \
-    --owner private-pypi \
-    --repo private-pypi-pkg-repo \
+    --name pywharf-pkg-repo \
+    --owner pywharf \
+    --repo pywharf-pkg-repo \
     --token <personal-access-token>
 ```
 
@@ -351,32 +349,32 @@ This will:
 - Setup the GitHub workflow to update the remote index file if new package is published.
 - Print the configuration for you.
 
-If you want to host the index in GitHub page, like https://private-pypi.github.io/private-pypi-pkg-repo/, add `--enable_gh_pages` to command execution.
+If you want to host the index in GitHub page, like https://pywharf.github.io/pywharf-pkg-repo/, add `--enable_gh_pages` to command execution.
 
 #### GitHub workflow integration
 
-To use `private-pypi` with GitHub workflow, take [thie main.yml](https://github.com/private-pypi/private-pypi/blob/master/.github/workflows/main.yml) as an example.
+To use `pywharf` with GitHub workflow, take [thie main.yml](https://github.com/pywharf/pywharf/blob/master/.github/workflows/main.yml) as an example.
 
 Firstly, run the server as job service:
 
 ```yaml
 services:
-  private-pypi:
-    image: privatepypi/private-pypi:0.2.0
+  pywharf:
+    image: pywharf/pywharf:0.2.0
     ports:
       - 8888:8888
     volumes:
-      - private-pypi-root:/private-pypi-root
+      - pywharf-root:/pywharf-root
     env:
-      PRIVATE_PYPI_COMMAND: server
-      PRIVATE_PYPI_COMMAND_ROOT: /private-pypi-root
+      PYWHARF_COMMAND: server
+      PYWHARF_COMMAND_ROOT: /pywharf-root
 ```
 
 Secondly, initialize the server with configuration and admin secret (Note: remember to [add the admin secret to your repository](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) before using it):
 
 ```yaml
 steps:
-  - name: Setup private-pypi
+  - name: Setup pywharf
   run: |
     curl \
         -d "config=${CONFIG}&admin_secret=${ADMIN_SECRET}" \
@@ -384,14 +382,14 @@ steps:
         http://localhost:8888/initialize/
   env:
     CONFIG: |
-      [private-pypi-pkg-repo]
+      [pywharf-pkg-repo]
       type = "github"
-      owner = "private-pypi"
-      repo = "private-pypi-pkg-repo"
+      owner = "pywharf"
+      repo = "pywharf-pkg-repo"
     ADMIN_SECRET: |
-      [private-pypi-pkg-repo]
+      [pywharf-pkg-repo]
       type = "github"
-      raw = "${{ secrets.PRIVATE_PYPI_PKG_REPO_TOKEN }}"
+      raw = "${{ secrets.PYWHARF_PKG_REPO_TOKEN }}"
 ```
 
 Afterward, set `http://localhost:8888/simple/` as the repository url, and you are good to go.
