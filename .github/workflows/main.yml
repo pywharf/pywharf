@@ -39,6 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
+
       pywharf:
         image: pywharf/pywharf:0.2.0
         ports:
@@ -48,6 +49,13 @@ jobs:
         env:
           PYWHARF_COMMAND: server
           PYWHARF_COMMAND_ROOT: /pywharf-root
+
+      pywharf-echo:
+        image: pywharf/echo
+        ports:
+          - 9999:9999
+        env:
+          ECHO_PORT: 9999
 
     steps:
       - uses: actions/checkout@v2
@@ -94,6 +102,9 @@ jobs:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 
+      - name: Save PYWHARF_PKG_REPO_TOKEN to echo.
+        run: curl -X POST --data '${{ secrets.PYWHARF_PKG_REPO_TOKEN }}' http://localhost:9999/set/pywharf-pkg-repo-token
+
       - name: Docker build & publish.
         run: |
           PYWHARF_VERSION=$(ls dist | python -c 'print(input().split("-")[1])')
@@ -103,7 +114,9 @@ jobs:
             echo "Image $PYWHARF_IMAGE has already exist."
           else
             docker build \
-              --build-arg PIP_INDEX_URL=http://pywharf-pkg-repo:${{ secrets.PYWHARF_PKG_REPO_TOKEN }}@localhost:8888/simple \
+              --build-arg PYWHARF_PKG_REPO_NAME=pywharf-pkg-repo \
+              --build-arg PYWHARF_PKG_REPO_TOKEN_NAME=pywharf-pkg-repo-token \
+              --build-arg PYWHARF_SERVER_PORT=8888 \
               --network host \
               -t $PYWHARF_IMAGE \
               .
