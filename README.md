@@ -9,7 +9,7 @@
 
 </div>
 
-* [Private PyPI](#Private-PyPI)
+* [pywharf](#pywharf)
 	* [What is it?](#What-is-it?)
 	* [Design](#Design)
 	* [Usage](#Usage)
@@ -50,7 +50,7 @@ The `pywharf` server serves as an abstraction layer between Python package manag
 ### Install from PyPI
 
 ```shell
-pip install pywharf==0.2.0
+pip install pywharf==0.2.1
 ```
 
 This should bring the execuable `pywharf` to your environment.
@@ -69,10 +69,10 @@ SUPPORTED COMMANDS
 
 ### Using the docker image (recommended)
 
-Docker image: `pywharf/pywharf:0.2.0`. The image tag is the same as the package version in PyPI.
+Docker image: `pywharf/pywharf:0.2.1`. The image tag is the same as the package version in PyPI.
 
 ```shell
-$ docker run --rm pywharf/pywharf:0.2.0 --help
+$ docker run --rm pywharf/pywharf:0.2.1 --help
 SYNOPSIS
     pywharf <command> <command_flags>
 
@@ -170,7 +170,7 @@ docker run --rm \
     -v /path/to/config.toml:/config.toml \
     -v /path/to/admin_secret.toml:/admin_secret.toml \
     -p 8888:8888 \
-    pywharf/pywharf:0.2.0 \
+    pywharf/pywharf:0.2.1 \
     server \
     /pywharf-root \
     --config=/config.toml \
@@ -335,7 +335,7 @@ The GitHub backend accepts [personal access token](https://help.github.com/en/gi
 To initialize a GitHub repository as the storage backend, run the command `github.init_pkg_repo`:
 
 ```shell
-docker run --rm pywharf/pywharf:0.2.0 \
+docker run --rm pywharf/pywharf:0.2.1 \
     github.init_pkg_repo \
     --name pywharf-pkg-repo \
     --owner pywharf \
@@ -360,7 +360,7 @@ Firstly, run the server as job service:
 ```yaml
 services:
   pywharf:
-    image: pywharf/pywharf:0.2.0
+    image: pywharf/pywharf:0.2.1
     ports:
       - 8888:8888
     volumes:
