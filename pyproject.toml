@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pywharf"
-version = "0.2.1"
+version = "0.2.2-alpha.0"
 description = "A private PyPI server powered by flexible backends."
 license = "MIT"
 authors = ["huntzhan <huntzhan.dev@gmail.com>"]
@@ -17,14 +17,14 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pywharf-core = "0.2.0"
+pywharf-core = "0.2.1"
 pywharf-github = "0.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 yapf = "^0.29.0"
-pylint = "^2.4.4"
 twine = "^3.1.1"
+flake8 = "^3.8.3"
 
 [tool.poetry.scripts]
 pywharf = "pywharf_bundles:main"

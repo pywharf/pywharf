@@ -28,10 +28,8 @@ jobs:
 
       - name: Lint.
         run: |
-          pylint pywharf_bundles
-          yapf -d -r --style="$YAPF_STYLE" pywharf_bundles
-        env:
-          YAPF_STYLE: '{based_on_style: google, continuation_indent_width: 8, dedent_closing_brackets: false, column_limit: 100}'
+          flake8 pywharf_bundles
+          yapf -d -r pywharf_bundles
 
   publish:
     needs: [ci]
@@ -63,6 +61,7 @@ jobs:
       - name: Setup pywharf
         run: |
           curl \
+            --fail \
             -d "config=${CONFIG}&admin_secret=${ADMIN_SECRET}" \
             -X POST \
             http://localhost:8888/initialize/

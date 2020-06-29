@@ -10,8 +10,8 @@ from pywharf_core.backend import BackendInstanceManager
 
 def build_command_to_func() -> Dict[str, Callable[[], int]]:
     command_to_func = {
-            'server': run_server_cli,
-            'update_index': update_index_cli,
+        'server': run_server_cli,
+        'update_index': update_index_cli,
     }
 
     bim = BackendInstanceManager()
