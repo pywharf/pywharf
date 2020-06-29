@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pywharf"
-version = "0.2.2-alpha.0"
+version = "0.2.2"
 description = "A private PyPI server powered by flexible backends."
 license = "MIT"
 authors = ["huntzhan <huntzhan.dev@gmail.com>"]
