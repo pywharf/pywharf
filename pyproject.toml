@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pywharf"
-version = "0.2.2"
+version = "0.2.3"
 description = "A private PyPI server powered by flexible backends."
 license = "MIT"
 authors = ["huntzhan <huntzhan.dev@gmail.com>"]
@@ -17,7 +17,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pywharf-core = "0.2.1"
+pywharf-core = "0.2.2"
 pywharf-github = "0.2.0"
 
 [tool.poetry.dev-dependencies]
